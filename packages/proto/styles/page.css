@@ -69,6 +69,21 @@ svg.icon-bigger {
 }
 
 /* for roster athlete rows */
+.results-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+race-results {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    background-color: #f4f4f4;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+}
+
 .individuals {
     margin: 20px auto;
     max-width: 800px;

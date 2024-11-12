@@ -11,6 +11,14 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Titillium+Web:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles/page.css">
+    <script type="importmap">
+        {
+          "imports": {
+            "@calpoly/mustang": "https://unpkg.com/@calpoly/mustang"
+          }
+        }
+      </script>
+
     <title>Individual Results</title>
 </head>
 <body>
@@ -50,29 +58,82 @@
                 <th>School Year</th>
             </tr>
         </thead>
+        <!-- <tbody>
+            <tr>
+                <td colspan="5">
+                    <ind-results>
+                        <span slot = "position">1</span>
+                        <span slot = "name">John Doe</span>
+                        <span slot = "team">Cal Poly</span>
+                        <time slot = "time">25:20</time>
+                        <span slot = "school-year">Junior</span>
+                    </ind-results>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="5">
+                    <ind-results>
+                        <span slot = "position">2</span>
+                        <span slot = "name">Jane Smith</span>
+                        <span slot = "team">Michigan</span>
+                        <time slot = "time">25:45</time>
+                        <span slot = "school-year">Sophomore</span>
+                    </ind-results>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="5">
+                    <ind-results>
+                        <span slot = "position">3</span>
+                        <span slot = "name">Adam Johnson</span>
+                        <span slot = "team">Virginia Tech</span>
+                        <time slot = "time">25:52</time>
+                        <span slot = "school-year">Senior</span>
+                    </ind-results>
+                </td>
+            </tr>
+        </tbody> -->
         <tbody>
-            <tr>
-                <td>1</td>
-                <td>John Doe</td>
-                <td>Cal Poly</td>
-                <td>25:20</td>
-                <td>Junior</td>
+            <tr is="ind-results">
+                <td><span slot="position">1</span></td>
+                <td><span slot="name">John Doe</span></td>
+                <td><span slot="team">Team A</span></td>
+                <td><time slot="time">15:30</time></td>
+                <td><span slot="school-year">Senior</span></td>
             </tr>
-            <tr>
-                <td>2</td>
-                <td>Jane Smith</td>
-                <td>Michigan</td>
-                <td>25:45</td>
-                <td>Sophomore</td>
-            </tr>
-            <tr>
-                <td>3</td>
-                <td>Adam Johnson</td>
-                <td>Virginia Tech</td>
-                <td>25:52</td>
-                <td>Senior</td>
+            <tr is="ind-results">
+                <td><span slot="position">2</span></td>
+                <td><span slot="name">Jane Smith</span></td>
+                <td><span slot="team">Team B</span></td>
+                <td><time slot="time">16:05</time></td>
+                <td><span slot="school-year">Junior</span></td>
             </tr>
         </tbody>
     </table>
+
+    <script type="module">
+        import { define } from "@calpoly/mustang";
+        import { RaceResultsElement } from "scripts/race-results.js";
+      
+        define({
+          "ind-results": RaceResultsElement
+        });
+    </script>
+    <!-- <section class="results-list">
+        <race-results>
+            <span slot="position">1</span>
+            <span slot="name">John Doe</span>
+            <span slot="team">Team A</span>
+            <time slot="time">15:30</time>
+            <span slot="school-year">Senior</span>
+        </race-results>
+        <race-results>
+            <span slot="position">2</span>
+            <span slot="name">Jane Smith</span>
+            <span slot="team">Team B</span>
+            <time slot="time">15:45</time>
+            <span slot="school-year">Junior</span>
+        </race-results>
+    </section> -->
 </body>
 </html>
