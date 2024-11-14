@@ -17,7 +17,10 @@
 import express, { Request, Response, RequestHandler } from "express";
 import path from "path";
 import { RaceResultPage } from "./pages/race-results";
-import { getRaceResult } from "./services/race-results-svc";
+import raceService from "./services/race-results-svc";
+import { connect } from "./services/mongo";
+
+connect("racing");
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -28,15 +31,17 @@ app.use(express.static(staticDir));
 // Define the route handler using the correct type
 app.get("/race/:raceId", (req: Request, res: Response): void => {
     const { raceId } = req.params;
-    const raceData = getRaceResult(raceId);
-  
-    if (!raceData) {
-      res.status(404).send("Race not found");
-      return;
-    }
-  
-    const page = new RaceResultPage(raceData);
-    res.set("Content-Type", "text/html").send(page.render());
+    raceService.get(raceId).then((raceData) => {
+      if (!raceData) {
+        res.status(404).send("Race not found");
+        return;
+      }
+      const page = new RaceResultPage(raceData);
+
+      res.set("Content-Type", "text/html").send(page.render());
+    }).catch((err) => {
+      res.status(500).send(`Error fetching race result: ${err.message}`);
+    });
 });
   
 app.listen(port, () => {
