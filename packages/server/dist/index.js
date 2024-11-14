@@ -22,10 +22,13 @@ var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__ge
   mod
 ));
 var import_express = __toESM(require("express"));
+var import_path = __toESM(require("path"));
 var import_race_results = require("./pages/race-results");
 var import_race_results_svc = require("./services/race-results-svc");
 const app = (0, import_express.default)();
-const port = 3e3;
+const port = process.env.PORT || 3e3;
+const staticDir = import_path.default.join(__dirname, "../../proto");
+app.use(import_express.default.static(staticDir));
 app.get("/race/:raceId", (req, res) => {
   const { raceId } = req.params;
   const raceData = (0, import_race_results_svc.getRaceResult)(raceId);

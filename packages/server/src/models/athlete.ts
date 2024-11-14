@@ -11,4 +11,4 @@ export type YearType =
     | "Sophomore"
     | "Junior"
     | "Senior"
-    | "Graduate"
+    | "Graduate";

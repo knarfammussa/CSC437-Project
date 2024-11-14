@@ -41,42 +41,113 @@ class RaceResultPage {
   render() {
     return (0, import_renderPage.default)({
       body: this.renderBody(),
+      stylesheets: [
+        "/reset.css",
+        "/tokens.css",
+        "/styles/page.css",
+        "/scripts/styles/reset.css.js"
+      ],
       scripts: [
         `import { define } from "@calpoly/mustang";
-          import { RaceResultsElement } from "/scripts/ind-results.js";
-          import { TeamRaceResultsElement } from "/scripts/team-results.js";
-  
-          define({
-            "ind-result": RaceResultsElement,
-            "team-result": TeamRaceResultsElement
-          });`
+            import { RaceResultsElement } from "/scripts/ind-results.js";
+            import { TeamRaceResultsElement } from "/scripts/team-results.js";
+        
+            define({
+              "ind-result": RaceResultsElement,
+              "team-result": TeamRaceResultsElement
+            });
+              `
       ]
     });
   }
-  renderBody() {
-    const { raceName, results } = this.data;
+  renderRaceName() {
+    const { raceName } = this.data;
     return import_server.html`
-      <h1>${raceName}</h1>
-      <div class="results-list">
+      <h2>
+        <svg class="icon">
+          <use href="/icons/running.svg#icon-track2"></use>
+        </svg>
+        ${raceName} Results
+        <svg class="icon">
+          <use href="/icons/running.svg#icon-track3"></use>
+        </svg>
+      </h2>
+    `;
+  }
+  renderBody() {
+    const { raceName, results, teamResults } = this.data;
+    return import_server.html`
+      <body>
+        <header class="header">
+          <nav class="logo"><a href="/index.html">App Logo</a></nav>
+          <nav class="navigation">
+            <ul>
+              <li><a href="/races.html">Races</a></li>
+              <li><a href="/results.html">Results</a></li>
+              <li><a href="/runners.html">Runners</a></li>
+              <li><a href="/teamresults.html">Team Results</a></li>
+              <li><a href="/indresults.html">Individual Results</a></li>
+            </ul>
+          </nav>
+          <div class="user-info">
+            <span class="username">Username</span>
+            <img src="" alt="User Avatar" class="avatar"> <!--update once path for avatar found-->
+          </div>
+        </header>
+
+        ${this.renderRaceName()}
+
         ${this.renderRaceResults(this.data)}
-      </div>
+
+        <a href="../races.html">Back to Meets</a>
+      </body>
     `;
   }
   renderRaceResults(raceResult) {
-    return raceResult.results.map(
-      (athlete) => import_server.html`${this.renderAthleteResult(athlete)}`
-    );
+    return import_server.html`<h2>Individual Results</h2>
+    <div class="results-header">
+      <span>Position</span>
+      <span>Name</span>
+      <span>Team</span>
+      <span>Time</span>
+      <span>School Year</span>
+    </div>
+    ${raceResult.results.map(
+      (athlete) => this.renderAthleteResult(athlete)
+    )}
+
+    <h2>Team Results</h2>
+    <div class="team-results-header">
+        <span>Position</span>
+        <span>Team</span>
+        <span>Points</span>
+        <span>Top Runner</span>
+        <span>Team Time</span>
+        <span>5-Man-Gap</span>
+    </div>
+    ${raceResult.teamResults.map(
+      (teamResults) => this.renderTeamResult(teamResults)
+    )}`;
   }
   renderAthleteResult(athlete) {
     const { position, name, team, time, schoolYear } = athlete;
     return import_server.html`
-      <race-result-row>
-        <span slot="position">${position}</span>
-        <span slot="name">${name}</span>
+      <ind-result position="${position}" name="${name}">
         <span slot="team">${team}</span>
-        <span slot="time">${time}</span>
+        <time slot="time">${time}</time>
         <span slot="school-year">${schoolYear}</span>
-      </race-result-row>
+      </ind-result>
+    `;
+  }
+  renderTeamResult(teamres) {
+    const { position, teamName, points, topRunner, teamTime, fiveManGap } = teamres;
+    return import_server.html`
+        <team-result position="${position}" team="${teamName}">
+            <span slot="points">${points}</span>
+            <span slot="top-runner">${topRunner}</span>
+            <time slot="team-time">${teamTime}</time>
+            <time slot="five-man-gap">${fiveManGap}</slot>
+        </team-result>
     `;
   }
 }

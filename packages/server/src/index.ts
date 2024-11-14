@@ -15,11 +15,15 @@
 // });
 
 import express, { Request, Response, RequestHandler } from "express";
+import path from "path";
 import { RaceResultPage } from "./pages/race-results";
 import { getRaceResult } from "./services/race-results-svc";
 
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000;
+const staticDir = path.join(__dirname, "../../proto");
+
+app.use(express.static(staticDir));
 
 // Define the route handler using the correct type
 app.get("/race/:raceId", (req: Request, res: Response): void => {
@@ -35,7 +39,6 @@ app.get("/race/:raceId", (req: Request, res: Response): void => {
     res.set("Content-Type", "text/html").send(page.render());
 });
   
-  // Start the server
 app.listen(port, () => {
     console.log(`Server is running on http://localhost:${port}`);
 });
