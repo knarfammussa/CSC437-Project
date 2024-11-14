@@ -11,6 +11,23 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Titillium+Web:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../styles/page.css">
+    <script type="importmap">
+        {
+          "imports": {
+            "@calpoly/mustang": "https://unpkg.com/@calpoly/mustang"
+          }
+        }
+    </script>
+    <script type="module">
+        import { define } from "@calpoly/mustang";
+        import { RaceResultsElement } from "/scripts/ind-results.js";
+        import { TeamRaceResultsElement } from "/scripts/team-results.js";
+      
+        define({
+          "ind-results": RaceResultsElement,
+          "team-results": TeamRaceResultsElement
+        });
+    </script>
     <title>NIRCA Pacific Regionals Results</title>
 </head>
 <body>
@@ -41,7 +58,7 @@
     </h2>
 
     <h2>Individual Results</h2>
-    <table>
+        <!-- <table>
         <thead>
             <tr>
                 <th>Position</th>
@@ -74,10 +91,35 @@
                 <td>Freshman</td>
             </tr>
         </tbody>
-    </table>
+    </table> -->
+    <div class="results-header">
+        <span>Position</span>
+        <span>Name</span>
+        <span>Team</span>
+        <span>Time</span>
+        <span>School Year</span>
+    </div>
+
+    <ind-results position="1st" name="John Doe">
+        <span slot="team">The Master's</span>
+        <time slot="time">24:55.4</time>
+        <strong slot="school-year">Sophomore</strong>
+    </ind-results>
+    
+    <ind-results position="2nd" name="Frank Assumma">
+        <span slot="team">Cal Poly DC</span>
+        <time slot="time">25:22.9</time>
+        <span slot="school-year">Graduate</span>
+    </ind-results>
+    
+    <ind-results position="3rd" name="Tom Bell">
+        <span slot="team">Cal Poly DC</span>
+        <time slot="time">25:26.9</time>
+        <span slot="school-year">Sophomore</span>
+    </ind-results>
 
     <h2>Team Results</h2>
-    <table>
+    <!-- <table>
         <thead>
             <tr>
                 <th>Position</th>
@@ -106,7 +148,29 @@
                 <td>122.5 seconds</td>
             </tr>
         </tbody>
-    </table>
+    </table> -->
+    <div class="team-results-header">
+        <span>Position</span>
+        <span>Team</span>
+        <span>Points</span>
+        <span>Top Runner</span>
+        <span>Team Time</span>
+        <span>5-Man-Gap</span>
+    </div>
+
+    <team-results position="1st" team="Cal Poly DC">
+        <span slot="points">45</span>
+        <span slot="top-runner">Frank Assumma</span>
+        <time slot="team-time">82:15</time>
+        <time slot="five-man-gap">1:13.2</strong>
+    </team-results>
+    
+    <team-results position="2nd" team="The Master's">
+        <span slot="points">83</span>
+        <span slot="top-runner">John Doe</span>
+        <time slot="team-time">89:25</time>
+        <time slot="five-man-gap">2:02.5</span>
+    </team-results>
 
     <a href="../races.html">Back to Meets</a> <!-- Link back to the list of meets -->
 </body>

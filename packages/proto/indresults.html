@@ -17,7 +17,15 @@
             "@calpoly/mustang": "https://unpkg.com/@calpoly/mustang"
           }
         }
-      </script>
+    </script>
+    <script type="module">
+        import { define } from "@calpoly/mustang";
+        import { RaceResultsElement } from "/scripts/ind-results.js";
+      
+        define({
+          "ind-results": RaceResultsElement
+        });
+    </script>
 
     <title>Individual Results</title>
 </head>
@@ -48,7 +56,7 @@
             <use href="/icons/running.svg#icon-sports-ranking" />
         </svg>
     </h2>
-    <table>
+    <!-- <table>
         <thead>
             <tr>
                 <th>Position</th>
@@ -58,7 +66,7 @@
                 <th>School Year</th>
             </tr>
         </thead>
-        <!-- <tbody>
+        <tbody>
             <tr>
                 <td colspan="5">
                     <ind-results>
@@ -93,7 +101,7 @@
                 </td>
             </tr>
         </tbody> -->
-        <tbody>
+        <!-- <tbody>
             <tr is="ind-results">
                 <td><span slot="position">1</span></td>
                 <td><span slot="name">John Doe</span></td>
@@ -108,17 +116,8 @@
                 <td><time slot="time">16:05</time></td>
                 <td><span slot="school-year">Junior</span></td>
             </tr>
-        </tbody>
-    </table>
-
-    <script type="module">
-        import { define } from "@calpoly/mustang";
-        import { RaceResultsElement } from "scripts/race-results.js";
-      
-        define({
-          "ind-results": RaceResultsElement
-        });
-    </script>
+        </tbody> -->
+    <!-- </table> -->
     <!-- <section class="results-list">
         <race-results>
             <span slot="position">1</span>
@@ -135,5 +134,30 @@
             <span slot="school-year">Junior</span>
         </race-results>
     </section> -->
+    <div class="results-header">
+        <span>Position</span>
+        <span>Name</span>
+        <span>Team</span>
+        <span>Time</span>
+        <span>School Year</span>
+    </div>
+
+    <ind-results position="1st" name="John Doe">
+        <span slot="team">City High</span>
+        <time slot="time">16:32</time>
+        <strong slot="school-year">Senior</strong>
+    </ind-results>
+    
+    <ind-results position="2nd" name="Jane Smith">
+        <span slot="team">Riverside Prep</span>
+        <time slot="time">17:05</time>
+        <span slot="school-year">Junior</span>
+    </ind-results>
+    
+    <ind-results position="3rd" name="Emily Johnson">
+        <span slot="team">Mountain View</span>
+        <time slot="time">17:42</time>
+        <span slot="school-year">Sophomore</span>
+    </ind-results>
 </body>
 </html>

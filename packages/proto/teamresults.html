@@ -11,6 +11,21 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Titillium+Web:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles/page.css">
+    <script type="importmap">
+        {
+          "imports": {
+            "@calpoly/mustang": "https://unpkg.com/@calpoly/mustang"
+          }
+        }
+    </script>
+    <script type="module">
+        import { define } from "@calpoly/mustang";
+        import { TeamRaceResultsElement } from "/scripts/team-results.js";
+      
+        define({
+          "team-results": TeamRaceResultsElement
+        });
+    </script>
     <title>Team Results</title>
 </head>
 <body>
@@ -39,7 +54,7 @@
             <use href="/icons/running.svg#icon-sports-ranking" />
         </svg>
     </h2>
-    <table>
+    <!-- <table>
         <thead>
             <tr>
                 <th>Position</th>
@@ -76,6 +91,35 @@
                 <td>64.7 seconds</td>
             </tr>
         </tbody>
-    </table>
+    </table> -->
+    <div class="team-results-header">
+        <span>Position</span>
+        <span>Team</span>
+        <span>Points</span>
+        <span>Top Runner</span>
+        <span>Team Time</span>
+        <span>5-Man-Gap</span>
+    </div>
+
+    <team-results position="1st" team="Cal Poly">
+        <span slot="points">50</span>
+        <span slot="top-runner">Tom Bell</span>
+        <time slot="team-time">75:12</time>
+        <time slot="five-man-gap">0:32.7</strong>
+    </team-results>
+    
+    <team-results position="2nd" team="Virginia Tech">
+        <span slot="points">73</span>
+        <span slot="top-runner">Chris Nunn</span>
+        <time slot="team-time">74:50</time>
+        <time slot="five-man-gap">1:01.5</span>
+    </team-results>
+    
+    <team-results position="3rd" team="Michigan">
+        <span slot="points">88</span>
+        <span slot="top-runner">Andrew Healey</span>
+        <time slot="team-time">74:58</time>
+        <time slot="five-man-gap">1:20.4</span>
+    </team-results>
 </body>
 </html>
