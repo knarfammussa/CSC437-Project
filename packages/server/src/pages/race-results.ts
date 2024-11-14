@@ -80,52 +80,73 @@ export class RaceResultPage {
   }
 
   renderRaceResults(raceResult: RaceResult) {
-    // Render a list of individual athlete results
+    // return html`<h2>Individual Results</h2>
+    // <div class="results-header">
+    //   <span>Position</span>
+    //   <span>Name</span>
+    //   <span>Team</span>
+    //   <span>Time</span>
+    //   <span>School Year</span>
+    // </div>
+    // ${raceResult.results.map(
+    //   (athlete) => this.renderAthleteResult(athlete))}
+
+    // <h2>Team Results</h2>
+    // <div class="team-results-header">
+    //     <span>Position</span>
+    //     <span>Team</span>
+    //     <span>Points</span>
+    //     <span>Top Runner</span>
+    //     <span>Team Time</span>
+    //     <span>5-Man-Gap</span>
+    // </div>
+    // ${raceResult.teamResults.map(
+    //   (teamResults) => this.renderTeamResult(teamResults))}`;
     return html`<h2>Individual Results</h2>
-    <div class="results-header">
-      <span>Position</span>
-      <span>Name</span>
-      <span>Team</span>
-      <span>Time</span>
-      <span>School Year</span>
-    </div>
-    ${raceResult.results.map(
-      (athlete) => this.renderAthleteResult(athlete))}
-
-    <h2>Team Results</h2>
-    <div class="team-results-header">
+      <div class="results-header">
         <span>Position</span>
+        <span>Name</span>
         <span>Team</span>
-        <span>Points</span>
-        <span>Top Runner</span>
-        <span>Team Time</span>
-        <span>5-Man-Gap</span>
-    </div>
-    ${raceResult.teamResults.map(
-      (teamResults) => this.renderTeamResult(teamResults))}`;
+        <span>Time</span>
+        <span>School Year</span>
+      </div>
+      ${raceResult.results.map((result) => html`
+        <ind-result src="/api/races/${raceResult.raceId}/individual-results/${result.position}"></ind-result>`)}
 
-  }
-
-  renderAthleteResult(athlete: Athlete) {
-    const { position, name, team, time, schoolYear } = athlete;
-    return html`
-      <ind-result position="${position}" name="${name}">
-        <span slot="team">${team}</span>
-        <time slot="time">${time}</time>
-        <span slot="school-year">${schoolYear}</span>
-      </ind-result>
+      <h2>Team Results</h2>
+      <div class="team-results-header">
+          <span>Position</span>
+          <span>Team</span>
+          <span>Points</span>
+          <span>Top Runner</span>
+          <span>Team Time</span>
+          <span>5-Man-Gap</span>
+      </div>
+      ${raceResult.results.map((teamResult) => html`
+        <team-result src="/api/races/${raceResult.raceId}/team-results/${teamResult.position}"></team-result>`)}
     `;
   }
 
-  renderTeamResult(teamres: TeamResult) {
-    const { position, teamName, points, topRunner, teamTime, fiveManGap } = teamres;
-    return html`
-        <team-result position="${position}" team="${teamName}">
-            <span slot="points">${points}</span>
-            <span slot="top-runner">${topRunner}</span>
-            <time slot="team-time">${teamTime}</time>
-            <time slot="five-man-gap">${fiveManGap}</slot>
-        </team-result>
-    `
-  }
+  // renderAthleteResult(athlete: Athlete) {
+  //   const { position, name, team, time, schoolYear } = athlete;
+  //   return html`
+  //     <ind-result position="${position}" name="${name}">
+  //       <span slot="team">${team}</span>
+  //       <time slot="time">${time}</time>
+  //       <span slot="school-year">${schoolYear}</span>
+  //     </ind-result>
+  //   `;
+  // }
+
+  // renderTeamResult(teamres: TeamResult) {
+  //   const { position, teamName, points, topRunner, teamTime, fiveManGap } = teamres;
+  //   return html`
+  //       <team-result position="${position}" team="${teamName}">
+  //           <span slot="points">${points}</span>
+  //           <span slot="top-runner">${topRunner}</span>
+  //           <time slot="team-time">${teamTime}</time>
+  //           <time slot="five-man-gap">${fiveManGap}</slot>
+  //       </team-result>
+  //   `
+  // }
 }

@@ -19,6 +19,7 @@ import path from "path";
 import { RaceResultPage } from "./pages/race-results";
 import raceService from "./services/race-results-svc";
 import { connect } from "./services/mongo";
+import races from "./routes/races"
 
 connect("racing");
 
@@ -27,6 +28,10 @@ const port = process.env.PORT || 3000;
 const staticDir = path.join(__dirname, "../../proto");
 
 app.use(express.static(staticDir));
+
+app.use(express.json());
+
+app.use("/api/races", races);
 
 // Define the route handler using the correct type
 app.get("/race/:raceId", (req: Request, res: Response): void => {

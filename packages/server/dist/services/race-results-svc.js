@@ -45,7 +45,7 @@ const TeamResultSchema = new import_mongoose.Schema(
 );
 const RaceResultSchema = new import_mongoose.Schema(
   {
-    raceId: { type: String, required: true },
+    raceId: { type: String, required: true, unique: true },
     raceName: { type: String, required: true },
     results: [AthleteSchema],
     teamResults: [TeamResultSchema]
@@ -66,4 +66,76 @@ function get(raceId) {
     throw new Error(`Error fetching race result: ${err.message}`);
   });
 }
-var race_results_svc_default = { index, get };
+function create(json) {
+  const t = new raceResults(json);
+  return t.save();
+}
+function update(raceId, race) {
+  return raceResults.findOneAndUpdate({ raceId }, race, {
+    new: true
+  }).then((updated) => {
+    if (!updated) throw `${raceId} not updated`;
+    else return updated;
+  });
+}
+function remove(raceId) {
+  console.log(`remove function: ${JSON.stringify(raceId)}`);
+  return raceResults.findOneAndDelete({ raceId }).then(
+    (deleted) => {
+      if (!deleted) throw `${raceId} not deleted`;
+    }
+  );
+}
+function getIndividualResults(raceId) {
+  return raceResults.findOne({ raceId }).then((race) => {
+    if (!race) {
+      throw new Error(`Race with ID ${raceId} not found`);
+    }
+    return {
+      results: race.results
+    };
+  }).catch((err) => {
+    throw new Error(`Error fetching individual results: ${err.message}`);
+  });
+}
+function getTeamResults(raceId) {
+  return raceResults.findOne({ raceId }).then((race) => {
+    if (!race) {
+      throw new Error(`Race with ID ${raceId} not found`);
+    }
+    return {
+      results: race.teamResults
+    };
+  }).catch((err) => {
+    throw new Error(`Error fetching individual results: ${err.message}`);
+  });
+}
+function getIndividualResult(raceId, athleteId) {
+  return raceResults.findOne(
+    { raceId, "results.position": athleteId },
+    { "results.$": 1 }
+  ).then((race) => {
+    if (!race || !race.results || race.results.length === 0) {
+      throw new Error(`Athlete with ID ${athleteId} not found in race ${raceId}`);
+    }
+    return race.results[0];
+  }).catch((err) => {
+    console.error(`Error fetching result for athlete ${athleteId} in race ${raceId}: ${err.message}`);
+    throw new Error(`Error fetching individual result: ${err.message}`);
+  });
+}
+function getTeamResult(raceId, teamPosition) {
+  return raceResults.findOne(
+    { raceId, "teamResults.position": teamPosition },
+    { "teamResults.$": 1 }
+  ).then((race) => {
+    if (!race || !race.teamResults || race.teamResults.length === 0) {
+      throw new Error(`Team with position ${teamPosition} not found in race ${raceId}`);
+    }
+    return race.teamResults[0];
+  }).catch((err) => {
+    console.error(`Error fetching result for team at position ${teamPosition} in race ${raceId}: ${err.message}`);
+    throw new Error(`Error fetching team result: ${err.message}`);
+  });
+}
+var race_results_svc_default = { index, get, create, update, remove, getIndividualResults, getTeamResults, getIndividualResult, getTeamResult };

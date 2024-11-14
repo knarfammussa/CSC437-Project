@@ -26,11 +26,14 @@ var import_path = __toESM(require("path"));
 var import_race_results = require("./pages/race-results");
 var import_race_results_svc = __toESM(require("./services/race-results-svc"));
 var import_mongo = require("./services/mongo");
+var import_races = __toESM(require("./routes/races"));
 (0, import_mongo.connect)("racing");
 const app = (0, import_express.default)();
 const port = process.env.PORT || 3e3;
 const staticDir = import_path.default.join(__dirname, "../../proto");
 app.use(import_express.default.static(staticDir));
+app.use(import_express.default.json());
+app.use("/api/races", import_races.default);
 app.get("/race/:raceId", (req, res) => {
   const { raceId } = req.params;
   import_race_results_svc.default.get(raceId).then((raceData) => {
