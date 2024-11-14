@@ -21,6 +21,8 @@ h2 {
     font-family: 'Rubik', Arial, sans-serif;
     color: var(--color-text);
     text-align: center;
+    margin-bottom: 20px;
+    margin-top: 20px;
 }
 ul {
     list-style-type: none;
@@ -69,6 +71,65 @@ svg.icon-bigger {
 }
 
 /* for roster athlete rows */
+/* .results-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+ind-results {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    background-color: #f4f4f4;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+} */
+
+.results-header {
+    display: grid;
+    grid-template-columns: 100px 1fr 1fr 100px 150px;
+    grid-template-rows: 30px;
+    gap: 16px;
+    align-items: center;
+    font-weight: bold;
+    text-transform: uppercase;
+    background-color: var(--color-accent);
+    padding: 8px 0;
+    border-bottom: 2px solid #333;
+    margin-bottom: 10px;
+    border-radius: 10px;
+}
+.results-header span {
+    text-align: left;
+}
+
+.results-header span:first-child {
+    padding-left: 12px;
+}
+
+.team-results-header {
+    display: grid;
+    grid-template-columns: 100px 1fr 100px 1fr 100px 150px;
+    grid-template-rows: 30px;
+    gap: 16px;
+    align-items: center;
+    font-weight: bold;
+    text-transform: uppercase;
+    background-color: var(--color-accent);
+    padding: 8px 0;
+    border-bottom: 2px solid #333;
+    margin-bottom: 10px;
+    border-radius: 10px;
+}
+.team-results-header span {
+    text-align: left;
+}
+
+.team-results-header span:first-child {
+    padding-left: 12px;
+}
+
 .individuals {
     margin: 20px auto;
     max-width: 800px;
