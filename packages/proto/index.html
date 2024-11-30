@@ -12,46 +12,45 @@
     <link href="https://fonts.googleapis.com/css2?family=Titillium+Web:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles/page.css">
     <title>Home Page</title>
+    <script type="importmap">
+        {
+          "imports": {
+            "@calpoly/mustang": "https://unpkg.com/@calpoly/mustang"
+          }
+        }
+    </script>
+    <script type="module">
+        import { define, Auth } from "@calpoly/mustang";
+        import { HeaderElement } from "/scripts/header.js";
+      
+        define({
+          "app-header": HeaderElement,
+          "mu-auth": Auth.Provider
+        });
+    </script>
 </head>
 <body>
-    <header class="header">
-        <nav class="logo"><a href = "/index.html">App Logo</a></nav>
-        <nav class="navigation">
-            <ul>
-                <li><a href="races.html">Races</a></li>
-                <li><a href="results.html">Results</a></li>
-                <li><a href="runners.html">Runners</a></li>
-                <li><a href="teamresults.html">Team Results</a></li>
-                <li><a href="indresults.html">Individual Results</a></li>
-            </ul>
-        </nav>
-        <label for="dark-mode-toggle" onchange="relayEvent(event)">
-            <input type="checkbox" id="dark-mode-toggle" autocomplete="off">
-            Dark Mode
-        </label>
-        <div class="user-info">
-            <span class="username">Username</span>
-            <img src="" alt="User Avatar" class="avatar"> <!--update once path for avatar found-->
-        </div>
-    </header>    
+    <mu-auth provides="racing:auth">
+        <app-header></app-header>
 
-    <h2>
-        <svg class="icon">
-            <use href="/icons/running.svg#icon-runner-new" />
-        </svg>
-        Welcome to My Project
-        <svg class="icon-bigger">
-            <use href="/icons/running.svg#sneakers" />
-        </svg>
-    </h2>
-    <p>Click on the links below to view different pages:</p>
-    <ul>
-        <li><a href="races.html">Races</a></li>
-        <li><a href="results.html">Results</a></li>
-        <li><a href="runners.html">Runners</a></li>
-        <li><a href="teamresults.html">Team Results</a></li>
-        <li><a href="indresults.html">Individual Results</a></li>
-    </ul>
-    <script src="/scripts/dark-mode.js"></script>
+        <h2>
+            <svg class="icon">
+                <use href="/icons/running.svg#icon-runner-new" />
+            </svg>
+            Welcome to My Project
+            <svg class="icon-bigger">
+                <use href="/icons/running.svg#sneakers" />
+            </svg>
+        </h2>
+        <p>Click on the links below to view different pages:</p>
+        <ul>
+            <li><a href="races.html">Races</a></li>
+            <li><a href="results.html">Results</a></li>
+            <li><a href="runners.html">Runners</a></li>
+            <li><a href="teamresults.html">Team Results</a></li>
+            <li><a href="indresults.html">Individual Results</a></li>
+        </ul>
+        <script src="/scripts/dark-mode.js"></script>
+    </mu-auth>
 </body>
 </html>

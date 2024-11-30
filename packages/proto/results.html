@@ -22,30 +22,17 @@
             import { define } from "@calpoly/mustang";
             import { RaceResultsElement } from "/scripts/ind-results.js";
             import { TeamRaceResultsElement } from "/scripts/team-results.js";
+            import { HeaderElement } from "/scripts/header.js";
           
             define({
               "ind-results": RaceResultsElement,
-              "team-results": TeamRaceResultsElement
+              "team-results": TeamRaceResultsElement,
+              "app-header": HeaderElement
             });
         </script>
     </head>
     <body>
-        <header class="header">
-            <nav class="logo"><a href = "/index.html">App Logo</a></nav>
-            <nav class="navigation">
-                <ul>
-                    <li><a href="races.html">Races</a></li>
-                    <li><a href="results.html">Results</a></li>
-                    <li><a href="runners.html">Runners</a></li>
-                    <li><a href="teamresults.html">Team Results</a></li>
-                    <li><a href="indresults.html">Individual Results</a></li>
-                </ul>
-            </nav>
-            <div class="user-info">
-                <span class="username">Username</span>
-                <img src="" alt="User Avatar" class="avatar"> <!--update once path for avatar found-->
-            </div>
-        </header>
+        <app-header></app-header>
         <h2>
             <svg class="icon">
                 <use href="/icons/running.svg#icon-sports-ranking" />

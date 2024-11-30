@@ -20,6 +20,8 @@ import { RaceResultPage } from "./pages/race-results";
 import raceService from "./services/race-results-svc";
 import { connect } from "./services/mongo";
 import races from "./routes/races"
+import auth, { authenticateUser } from "./routes/auth";
+import { LoginPage } from "./pages/auth";
 
 connect("racing");
 
@@ -31,7 +33,9 @@ app.use(express.static(staticDir));
 
 app.use(express.json());
 
-app.use("/api/races", races);
+app.use("/api/races", authenticateUser, races);
+
+app.use("/auth", auth);
 
 // Define the route handler using the correct type
 app.get("/race/:raceId", (req: Request, res: Response): void => {
@@ -47,6 +51,11 @@ app.get("/race/:raceId", (req: Request, res: Response): void => {
     }).catch((err) => {
       res.status(500).send(`Error fetching race result: ${err.message}`);
     });
+});
+
+app.get("/login", (req: Request, res: Response) => {
+  const page = new LoginPage();
+  res.set("Content-Type", "text/html").send(page.render());
 });
   
 app.listen(port, () => {

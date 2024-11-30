@@ -48,13 +48,16 @@ class RaceResultPage {
         "/scripts/styles/reset.css.js"
       ],
       scripts: [
-        `import { define } from "@calpoly/mustang";
+        `import { define, Auth } from "@calpoly/mustang";
             import { RaceResultsElement } from "/scripts/ind-results.js";
             import { TeamRaceResultsElement } from "/scripts/team-results.js";
+            import { HeaderElement } from "/scripts/header.js";
         
             define({
               "ind-result": RaceResultsElement,
-              "team-result": TeamRaceResultsElement
+              "team-result": TeamRaceResultsElement,
+              "app-header": HeaderElement,
+              "mu-auth": Auth.Provider
             });
               `
       ]
@@ -78,28 +81,15 @@ class RaceResultPage {
     const { raceName, results, teamResults } = this.data;
     return import_server.html`
       <body>
-        <header class="header">
-          <nav class="logo"><a href="/index.html">App Logo</a></nav>
-          <nav class="navigation">
-            <ul>
-              <li><a href="/races.html">Races</a></li>
-              <li><a href="/results.html">Results</a></li>
-              <li><a href="/runners.html">Runners</a></li>
-              <li><a href="/teamresults.html">Team Results</a></li>
-              <li><a href="/indresults.html">Individual Results</a></li>
-            </ul>
-          </nav>
-          <div class="user-info">
-            <span class="username">Username</span>
-            <img src="" alt="User Avatar" class="avatar"> <!--update once path for avatar found-->
-          </div>
-        </header>
+        <mu-auth provides="racing:auth">
+          <app-header></app-header>
 
-        ${this.renderRaceName()}
+          ${this.renderRaceName()}
 
-        ${this.renderRaceResults(this.data)}
+          ${this.renderRaceResults(this.data)}
 
-        <a href="../races.html">Back to Meets</a>
+          <a href="../races.html">Back to Meets</a>
+        </mu-auth>
       </body>
     `;
   }

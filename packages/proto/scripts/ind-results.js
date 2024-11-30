@@ -1,4 +1,4 @@
-import { css, html, shadow } from "@calpoly/mustang";
+import { css, html, shadow, Observer } from "@calpoly/mustang";
 import reset from "./styles/reset.css.js";
 
 export class RaceResultsElement extends HTMLElement {
@@ -86,7 +86,11 @@ export class RaceResultsElement extends HTMLElement {
   }
 
   hydrate(url) {
-    fetch(url)
+    if (!this.authorization) {
+      console.warn("user not authehnticated.");
+      return;
+    }
+    fetch(url, { headers: this.authorization })
       .then((res) => {
         if (res.status !== 200) throw `Status: ${res.status}`;
         return res.json();
@@ -106,11 +110,32 @@ export class RaceResultsElement extends HTMLElement {
     const fragment = entries.map(toSlot);
     this.replaceChildren(...fragment);
   }
+
+  _authObserver = new Observer(this, "racing:auth");
+
+  get authorization() {
+    return (
+      this._user?.authenticated && {
+        Authorization: `Bearer ${this._user.token}`
+      }
+    );
+  }
   
   connectedCallback() {
-    if (this.src) this.hydrate(this.src);
-    console.log("before render in connectedCallback");
-    //this.renderAttributes();
+    console.log("RaceResultsElement connected.");
+
+    this._authObserver.observe(({ user }) => {
+      console.log("Authenticated user:", user);
+      this._user = user;
+
+      if (this.src && user?.authenticated) {
+        this.hydrate(this.src);
+      }
+    });
+
+    if (this.src && this._user?.authenticated) {
+      this.hydrate(this.src);
+    }
   }
 
   static get observedAttributes() {

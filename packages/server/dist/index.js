@@ -27,13 +27,16 @@ var import_race_results = require("./pages/race-results");
 var import_race_results_svc = __toESM(require("./services/race-results-svc"));
 var import_mongo = require("./services/mongo");
 var import_races = __toESM(require("./routes/races"));
+var import_auth = __toESM(require("./routes/auth"));
+var import_auth2 = require("./pages/auth");
 (0, import_mongo.connect)("racing");
 const app = (0, import_express.default)();
 const port = process.env.PORT || 3e3;
 const staticDir = import_path.default.join(__dirname, "../../proto");
 app.use(import_express.default.static(staticDir));
 app.use(import_express.default.json());
-app.use("/api/races", import_races.default);
+app.use("/api/races", import_auth.authenticateUser, import_races.default);
+app.use("/auth", import_auth.default);
 app.get("/race/:raceId", (req, res) => {
   const { raceId } = req.params;
   import_race_results_svc.default.get(raceId).then((raceData) => {
@@ -46,6 +49,10 @@ app.get("/race/:raceId", (req, res) => {
   }).catch((err) => {
     res.status(500).send(`Error fetching race result: ${err.message}`);
   });
+});
+app.get("/login", (req, res) => {
+  const page = new import_auth2.LoginPage();
+  res.set("Content-Type", "text/html").send(page.render());
 });
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
