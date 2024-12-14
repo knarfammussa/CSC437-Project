@@ -64,6 +64,7 @@ export function authenticateUser(
   res: Response,
   next: NextFunction
 ) {
+  console.log(`Authenticating request to ${req.url}`);
   const authHeader = req.headers["authorization"];
   //Getting the 2nd part of the auth header (the token)
   const token = authHeader && authHeader.split(" ")[1];
@@ -76,6 +77,22 @@ export function authenticateUser(
       else res.status(403).end();
     });
   }
+
+  // const hardcodedToken = "allow-all"; // Replace this with an appropriate placeholder
+
+  // const authHeader = req.headers["authorization"];
+  // const token = authHeader && authHeader.split(" ")[1];
+
+  // if (!token || token !== hardcodedToken) {
+  //   if (req.accepts("html")) {
+  //     res.redirect("/login");
+  //   } else {
+  //     res.status(401).json({ error: "Unauthorized" });
+  //   }
+  //   return; // Exit the function
+  // }
+
+  // next();
 }
 
 export default router;

@@ -101,5 +101,24 @@ router.get('/:raceId/team-results/:teamId', (req: Request, res: Response) => {
     });
 });
 
+router.put("/:raceId/individual-results/:athleteId", (req: Request, res: Response) => {
+    const { raceId, athleteId } = req.params;
+    const updatedData = req.body;  // Assuming you're sending updated data in the request body
+
+    console.log("Updating athlete:", athleteId);
+    console.log("Received updated data:", updatedData);
+  
+    // Fetch the race result by ID and update the athlete's data
+    raceService.updateAthlete(raceId, Number(athleteId), updatedData)
+      .then((updatedRaceResult) => {
+        // Here, updatedRaceResult should be of type RaceResult
+        res.json(updatedRaceResult);  // Send the updated race result back in the response
+      })
+      .catch((error) => {
+        // Handle any errors during the update process
+        res.status(500).json({ error: error.message });
+      });
+  });
+
 
 export default router;

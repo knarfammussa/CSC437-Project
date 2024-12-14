@@ -29,14 +29,21 @@ var import_mongo = require("./services/mongo");
 var import_races = __toESM(require("./routes/races"));
 var import_auth = __toESM(require("./routes/auth"));
 var import_auth2 = require("./pages/auth");
+var import_promises = __toESM(require("node:fs/promises"));
 (0, import_mongo.connect)("racing");
 const app = (0, import_express.default)();
 const port = process.env.PORT || 3e3;
-const staticDir = import_path.default.join(__dirname, "../../proto");
+const staticDir = process.env.STATIC || import_path.default.join(__dirname, "../../app/dist");
 app.use(import_express.default.static(staticDir));
 app.use(import_express.default.json());
-app.use("/api/races", import_auth.authenticateUser, import_races.default);
+app.use("/api/races", import_races.default);
 app.use("/auth", import_auth.default);
+app.use("/app", (req, res) => {
+  const indexHtml = import_path.default.resolve(staticDir, "index.html");
+  import_promises.default.readFile(indexHtml, { encoding: "utf8" }).then(
+    (html) => res.send(html)
+  );
+});
 app.get("/race/:raceId", (req, res) => {
   const { raceId } = req.params;
   import_race_results_svc.default.get(raceId).then((raceData) => {
@@ -55,5 +62,6 @@ app.get("/login", (req, res) => {
   res.set("Content-Type", "text/html").send(page.render());
 });
 app.listen(port, () => {
+  console.log(`Server is running and serving files from ${staticDir}`);
   console.log(`Server is running on http://localhost:${port}`);
 });

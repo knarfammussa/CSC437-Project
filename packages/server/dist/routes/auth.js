@@ -71,6 +71,7 @@ function generateAccessToken(username) {
   });
 }
 function authenticateUser(req, res, next) {
+  console.log(`Authenticating request to ${req.url}`);
   const authHeader = req.headers["authorization"];
   const token = authHeader && authHeader.split(" ")[1];
   if (!token) {

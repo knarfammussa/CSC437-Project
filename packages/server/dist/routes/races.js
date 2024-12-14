@@ -93,4 +93,15 @@ router.get("/:raceId/team-results/:teamId", (req, res) => {
     res.status(404).send(`Team results for race ${raceId} not found`);
   });
 });
+router.put("/:raceId/individual-results/:athleteId", (req, res) => {
+  const { raceId, athleteId } = req.params;
+  const updatedData = req.body;
+  console.log("Updating athlete:", athleteId);
+  console.log("Received updated data:", updatedData);
+  import_race_results_svc.default.updateAthlete(raceId, Number(athleteId), updatedData).then((updatedRaceResult) => {
+    res.json(updatedRaceResult);
+  }).catch((error) => {
+    res.status(500).json({ error: error.message });
+  });
+});
 var races_default = router;

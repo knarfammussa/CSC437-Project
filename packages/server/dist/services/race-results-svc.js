@@ -78,6 +78,26 @@ function update(raceId, race) {
     else return updated;
   });
 }
+function updateAthlete(raceId, athleteId, updatedData) {
+  return raceResults.findOneAndUpdate(
+    { raceId, "results.position": athleteId },
+    {
+      $set: {
+        "results.$.position": updatedData.position,
+        "results.$.name": updatedData.name,
+        "results.$.team": updatedData.team,
+        "results.$.time": updatedData.time,
+        "results.$.schoolYear": updatedData.schoolYear
+      }
+    },
+    { new: true, returnOriginal: false }
+  ).then((updatedRaceResult) => {
+    if (!updatedRaceResult) {
+      throw `${athleteId} not updated`;
+    }
+    return updatedRaceResult;
+  });
+}
 function remove(raceId) {
   console.log(`remove function: ${JSON.stringify(raceId)}`);
   return raceResults.findOneAndDelete({ raceId }).then(
@@ -138,4 +158,4 @@ function getTeamResult(raceId, teamPosition) {
     throw new Error(`Error fetching team result: ${err.message}`);
   });
 }
-var race_results_svc_default = { index, get, create, update, remove, getIndividualResults, getTeamResults, getIndividualResult, getTeamResult };
+var race_results_svc_default = { index, get, create, update, updateAthlete, remove, getIndividualResults, getTeamResults, getIndividualResult, getTeamResult };

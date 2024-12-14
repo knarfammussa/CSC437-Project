@@ -22,20 +22,28 @@ import { connect } from "./services/mongo";
 import races from "./routes/races"
 import auth, { authenticateUser } from "./routes/auth";
 import { LoginPage } from "./pages/auth";
+import fs from "node:fs/promises";
 
 connect("racing");
 
 const app = express();
 const port = process.env.PORT || 3000;
-const staticDir = path.join(__dirname, "../../proto");
+const staticDir = process.env.STATIC || path.join(__dirname, "../../app/dist");
 
 app.use(express.static(staticDir));
 
 app.use(express.json());
 
-app.use("/api/races", authenticateUser, races);
+app.use("/api/races", races);
 
 app.use("/auth", auth);
+
+app.use("/app", (req: Request, res: Response) => {
+  const indexHtml = path.resolve(staticDir, "index.html");
+  fs.readFile(indexHtml, { encoding: "utf8" }).then((html) =>
+    res.send(html)
+  );
+});
 
 // Define the route handler using the correct type
 app.get("/race/:raceId", (req: Request, res: Response): void => {
@@ -57,7 +65,8 @@ app.get("/login", (req: Request, res: Response) => {
   const page = new LoginPage();
   res.set("Content-Type", "text/html").send(page.render());
 });
-  
+
 app.listen(port, () => {
+    console.log(`Server is running and serving files from ${staticDir}`);
     console.log(`Server is running on http://localhost:${port}`);
 });

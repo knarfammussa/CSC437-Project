@@ -123,6 +123,27 @@ function update(raceId: String, race: RaceResult): Promise<RaceResult> {
   });
 }
 
+function updateAthlete(raceId: String, athleteId: Number, updatedData: any): Promise<RaceResult> {
+  return raceResults.findOneAndUpdate(
+    { raceId, "results.position": athleteId },
+    {
+      $set: {
+        "results.$.position": updatedData.position,
+        "results.$.name": updatedData.name,         
+        "results.$.team": updatedData.team,      
+        "results.$.time": updatedData.time,   
+        "results.$.schoolYear": updatedData.schoolYear
+      }
+    },
+    { new: true, returnOriginal: false }
+  ).then((updatedRaceResult) => {
+    if (!updatedRaceResult) {
+      throw `${athleteId} not updated`;
+    }
+    return updatedRaceResult as RaceResult;
+  });
+}
+
 function remove(raceId: String): Promise<void> {
   console.log(`remove function: ${JSON.stringify(raceId)}`);
   return raceResults.findOneAndDelete({ raceId }).then(
@@ -198,4 +219,4 @@ function getTeamResult(raceId: String, teamPosition: Number): Promise<any> {
 }
 
 
-export default { index, get, create, update, remove, getIndividualResults, getTeamResults, getIndividualResult, getTeamResult };
+export default { index, get, create, update, updateAthlete, remove, getIndividualResults, getTeamResults, getIndividualResult, getTeamResult };
