@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Titillium+Web:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles/page.css">
+    <title>Race Results Form Test</title>
+    <script type="importmap">
+        {
+        "imports": {
+            "@calpoly/mustang": "https://unpkg.com/@calpoly/mustang"
+        }
+        }
+    </script>
+    <script type="module">
+        import { define, Auth } from "@calpoly/mustang";
+        import { RaceResultsElement } from "/scripts/ind-results.js";
+        
+        define({
+          "ind-results": RaceResultsElement
+        });
+    </script>
+</head>
+<body>
+  <h1>Test Race Results Form</h1>
+  <race-results-element></race-results-element>
+</body>
+</html>

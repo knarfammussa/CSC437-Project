@@ -1,0 +1,24 @@
+:root {
+    --color-base: #333;
+    --color-accent: rgb(136, 187, 207);
+    --color-accent-inverted: rgb(129, 202, 191);
+    --color-background-header: var(--color-accent);
+    --color-background-page: #e3dde0;
+    --color-background-card: white;
+    --color-text: var(--color-base);
+    --color-text-heading: var(--color-accent);
+    --color-text-inverted: rgb(255,255,255);
+    --color-link:#007bff;
+}
+
+body.dark-mode {
+    --color-background-page: rgb(32, 34, 32);
+    --color-text: rgb(119, 125, 125);
+    --color-background-card: black;
+    --color-accent: #333;
+    --color-accent-inverted: #444;
+    --color-link: #9e5eec;
+    --color-text-heading: var(--color-accent);
+}
+
+  
