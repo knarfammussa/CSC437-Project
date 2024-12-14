@@ -29,7 +29,6 @@ export default function update(
           });
         break;
     case "athlete/select":
-    // put the rest of your cases here
     default:
         console.warn(`Unhandled Auth message: ${message[0]}`);
   }

@@ -1,7 +1,7 @@
 import { define, Form, InputArray, View, History } from "@calpoly/mustang";
-import { html } from "lit";
+import { html, css } from "lit";
 import { property, state } from "lit/decorators.js";
-import { RaceResult } from "server/models";
+import { RaceResult, Athlete } from "server/models";
 import { Msg } from "../messages";
 import { Model } from "../model";
 
@@ -21,6 +21,78 @@ export class ResultEditElement extends View<Model, Msg> {
   get raceResult(): RaceResult | undefined {
     return this.model.raceResult;
   }
+
+  static styles = css`
+    .mu-form {
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 16px;
+        padding: 16px;
+        background-color: #f9f9f9;
+        border-radius: 8px;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .mu-form input[type="number"],
+    .mu-form input[type="text"] {
+        width: 100%;
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        font-size: 1rem;
+        transition: border-color 0.3s ease;
+    }
+
+    .mu-form input[type="number"]:focus,
+    .mu-form input[type="text"]:focus {
+        border-color: #007BFF;
+        outline: none;
+    }
+
+    .mu-form input[type="submit"] {
+        padding: 8px 16px;
+        background-color: #007BFF;
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    .mu-form input[type="submit"]:hover {
+        background-color: #0056b3;
+    }
+
+    .mu-form input[type="submit"]:disabled {
+        background-color: #ccc;
+        cursor: not-allowed;
+    }
+
+    .mu-form .page {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+    }
+
+    @media (max-width: 600px) {
+    .mu-form {
+        padding: 8px;
+    }
+
+    .mu-form input[type="number"],
+    .mu-form input[type="text"] {
+        padding: 6px;
+        font-size: 0.9rem;
+    }
+
+    .mu-form input[type="submit"] {
+        padding: 6px 12px;
+    }
+    }
+    `;
 
   render() {
     return html`
@@ -117,7 +189,8 @@ export class ResultEditElement extends View<Model, Msg> {
   }
 
 
-  _handleSubmit(event: Form.SubmitEvent<RaceResult>) {
+  _handleSubmit(event: Form.SubmitEvent<Athlete>) {
+    console.log(this.selectedAthlete, this.raceId, event.detail);
     this.dispatchMessage([
       "result/save",
       {

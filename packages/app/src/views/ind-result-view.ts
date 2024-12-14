@@ -135,10 +135,11 @@ export class IndViewElement extends LitElement {
       this.hydrate(this.src);
     });
 
-    this.addEventListener('click', () => this.dispatchEvent(new CustomEvent('edit', { bubbles: true })));
+    this.addEventListener("click", this._navigateToEditView.bind(this));
   }
 
   _navigateToEditView() {
+    console.log(this.raceId, this.position);
     if (this.raceId && this.position !== undefined) {
       console.log("Navigating to edit view with URL:", `/app/races/${this.raceId}/${this.position}/edit`);
       History.dispatch(this, "history/navigate", {
