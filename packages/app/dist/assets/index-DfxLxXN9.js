@@ -405,7 +405,7 @@ Expecting `+St.join(", ")+", got '"+(this.terminals_[w]||w)+"'":Vt="Parse error 
         <span slot="school-year">${this.schoolYear}</span>
         <button id="edit" class="edit-btn @click=${this._navigateToEditView}">Edit</button>
     </div>
-  `}hydrate(t){fetch(t,{headers:R.headers(this._user)}).then(e=>{if(e.status!==200)throw new Error(`Status: ${e.status}`);return e.json()}).then(e=>{this.position=e.position,this.name=e.name,this.team=e.team,this.time=e.time,this.schoolYear=e.schoolYear}).catch(e=>console.error(`Failed to render data from ${t}:`,e))}connectedCallback(){super.connectedCallback(),this._authObserver.observe(({user:t})=>{t&&(this._user=t),this.hydrate(this.src)}),this.addEventListener("click",()=>this.dispatchEvent(new CustomEvent("edit",{bubbles:!0})))}_navigateToEditView(){this.raceId&&this.position!==void 0?(console.log("Navigating to edit view with URL:",`/app/races/${this.raceId}/${this.position}/edit`),Rt.dispatch(this,"history/navigate",{href:`/app/races/${this.raceId}/${this.position}/edit`})):console.error("Missing required parameters: raceId or athleteId.")}attributeChangedCallback(t,e,s){super.attributeChangedCallback(t,e,s),t==="src"&&e!==s&&s&&this.hydrate(s)}};Ee.styles=wt`
+  `}hydrate(t){fetch(t,{headers:R.headers(this._user)}).then(e=>{if(e.status!==200)throw new Error(`Status: ${e.status}`);return e.json()}).then(e=>{this.position=e.position,this.name=e.name,this.team=e.team,this.time=e.time,this.schoolYear=e.schoolYear}).catch(e=>console.error(`Failed to render data from ${t}:`,e))}connectedCallback(){super.connectedCallback(),this._authObserver.observe(({user:t})=>{t&&(this._user=t),this.hydrate(this.src)}),this.addEventListener("click",this._navigateToEditView.bind(this))}_navigateToEditView(){console.log(this.raceId,this.position),this.raceId&&this.position!==void 0?(console.log("Navigating to edit view with URL:",`/app/races/${this.raceId}/${this.position}/edit`),Rt.dispatch(this,"history/navigate",{href:`/app/races/${this.raceId}/${this.position}/edit`})):console.error("Missing required parameters: raceId or athleteId.")}attributeChangedCallback(t,e,s){super.attributeChangedCallback(t,e,s),t==="src"&&e!==s&&s&&this.hydrate(s)}};Ee.styles=wt`
     :host {
       display: grid;
     }
@@ -585,59 +585,59 @@ Expecting `+St.join(", ")+", got '"+(this.terminals_[w]||w)+"'":Vt="Parse error 
         </mu-form>
         <button @click=${this._navigateToRaceResults}>Cancel</button>
       </main>
-    `}_handleInput(t){var i;const e=t.target,s=e.value;if(this.selectedAthlete!==void 0&&((i=this.raceResult)!=null&&i.results[this.selectedAthlete])){const n=[...this.raceResult.results];switch(e.name){case"position":n[this.selectedAthlete].position=Number(s);break;case"time":n[this.selectedAthlete].time=s;break;case"team":n[this.selectedAthlete].team=s;break;case"name":n[this.selectedAthlete].name=s;break}this.model.raceResult={...this.raceResult,results:n}}}_getFormInitData(){var t;return this.selectedAthlete!==void 0&&((t=this.raceResult)!=null&&t.results[this.selectedAthlete])?{...this.raceResult.results[this.selectedAthlete],raceId:this.raceId}:{}}_getAthletePosition(){var t;return this.selectedAthlete!==void 0&&((t=this.raceResult)!=null&&t.results[this.selectedAthlete])?this.raceResult.results[this.selectedAthlete].position:""}_getAthleteName(){var t;return this.selectedAthlete!==void 0&&((t=this.raceResult)!=null&&t.results[this.selectedAthlete])?this.raceResult.results[this.selectedAthlete].name:""}_getAthleteTeam(){var t;return this.selectedAthlete!==void 0&&((t=this.raceResult)!=null&&t.results[this.selectedAthlete])?this.raceResult.results[this.selectedAthlete].team:""}_getAthleteTime(){var t;return this.selectedAthlete!==void 0&&((t=this.raceResult)!=null&&t.results[this.selectedAthlete])?this.raceResult.results[this.selectedAthlete].time:""}_getAthleteSchoolYear(){var t;return this.selectedAthlete!==void 0&&((t=this.raceResult)!=null&&t.results[this.selectedAthlete])?this.raceResult.results[this.selectedAthlete].schoolYear:""}_handleSubmit(t){this.dispatchMessage(["result/save",{raceId:this.raceId||"",athleteId:this.selectedAthlete||0,result:t.detail,onSuccess:()=>Rt.dispatch(this,"history/navigate",{href:`/app/races/${this.raceId}`}),onFailure:e=>console.log("ERROR:",e)}])}_navigateToRaceResults(){Rt.dispatch(this,"history/navigate",{href:`/app/races/${this.raceId}`})}};Lt.uses=fe({"mu-form":ui.Element,"input-array":hr.Element}),Lt.styles=wt`
-  .mu-form {
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
-    gap: 16px;
-    padding: 16px;
-    background-color: #f9f9f9;
-    border-radius: 8px;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    `}_handleInput(t){var i;const e=t.target,s=e.value;if(this.selectedAthlete!==void 0&&((i=this.raceResult)!=null&&i.results[this.selectedAthlete])){const n=[...this.raceResult.results];switch(e.name){case"position":n[this.selectedAthlete].position=Number(s);break;case"time":n[this.selectedAthlete].time=s;break;case"team":n[this.selectedAthlete].team=s;break;case"name":n[this.selectedAthlete].name=s;break}this.model.raceResult={...this.raceResult,results:n}}}_getFormInitData(){var t;return this.selectedAthlete!==void 0&&((t=this.raceResult)!=null&&t.results[this.selectedAthlete])?{...this.raceResult.results[this.selectedAthlete],raceId:this.raceId}:{}}_getAthletePosition(){var t;return this.selectedAthlete!==void 0&&((t=this.raceResult)!=null&&t.results[this.selectedAthlete])?this.raceResult.results[this.selectedAthlete].position:""}_getAthleteName(){var t;return this.selectedAthlete!==void 0&&((t=this.raceResult)!=null&&t.results[this.selectedAthlete])?this.raceResult.results[this.selectedAthlete].name:""}_getAthleteTeam(){var t;return this.selectedAthlete!==void 0&&((t=this.raceResult)!=null&&t.results[this.selectedAthlete])?this.raceResult.results[this.selectedAthlete].team:""}_getAthleteTime(){var t;return this.selectedAthlete!==void 0&&((t=this.raceResult)!=null&&t.results[this.selectedAthlete])?this.raceResult.results[this.selectedAthlete].time:""}_getAthleteSchoolYear(){var t;return this.selectedAthlete!==void 0&&((t=this.raceResult)!=null&&t.results[this.selectedAthlete])?this.raceResult.results[this.selectedAthlete].schoolYear:""}_handleSubmit(t){console.log(this.selectedAthlete,this.raceId,t.detail),this.dispatchMessage(["result/save",{raceId:this.raceId||"",athleteId:this.selectedAthlete||0,result:t.detail,onSuccess:()=>Rt.dispatch(this,"history/navigate",{href:`/app/races/${this.raceId}`}),onFailure:e=>console.log("ERROR:",e)}])}_navigateToRaceResults(){Rt.dispatch(this,"history/navigate",{href:`/app/races/${this.raceId}`})}};Lt.uses=fe({"mu-form":ui.Element,"input-array":hr.Element}),Lt.styles=wt`
+    .mu-form {
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 16px;
+        padding: 16px;
+        background-color: #f9f9f9;
+        border-radius: 8px;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
     }
 
     .mu-form input[type="number"],
     .mu-form input[type="text"] {
-    width: 100%;
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 1rem;
-    transition: border-color 0.3s ease;
+        width: 100%;
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        font-size: 1rem;
+        transition: border-color 0.3s ease;
     }
 
     .mu-form input[type="number"]:focus,
     .mu-form input[type="text"]:focus {
-    border-color: #007BFF;
-    outline: none;
+        border-color: #007BFF;
+        outline: none;
     }
 
     .mu-form input[type="submit"] {
-    padding: 8px 16px;
-    background-color: #007BFF;
-    color: #fff;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
+        padding: 8px 16px;
+        background-color: #007BFF;
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
     }
 
     .mu-form input[type="submit"]:hover {
-    background-color: #0056b3;
+        background-color: #0056b3;
     }
 
     .mu-form input[type="submit"]:disabled {
-    background-color: #ccc;
-    cursor: not-allowed;
+        background-color: #ccc;
+        cursor: not-allowed;
     }
 
     .mu-form .page {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
     }
 
     @media (max-width: 600px) {
